@@ -26,13 +26,25 @@ session = DBSession()
 @app.route('/')
 @app.route('/region/')
 def showRegions():
-    return "this page is main page"
+    regions = session.query(Region)
+    return render_template('regions.html', regions=regions)
 
 # Create a new region
-@app.route('/region/new/')
+@app.route('/region/new/', methods=['GET', 'POST'])
 def newRegion():
-    return "create a new region"
-
+    if request.method == 'POST':
+        region_name = request.form['name']
+        region_slug = '-'.join(region_name.lower().split(' '))
+        newRegion = Region(
+            name=region_name,
+            slug=region_slug,
+            description=request.form['description']
+        )
+        session.add(newRegion)
+        session.commit()
+        return redirect(url_for('showRegions'))
+    else:
+        return render_template('newRegion.html')
 # Edit a region
 @app.route('/region/<string:region_slug>/edit/')
 def editRegion(region_slug):
@@ -45,7 +57,7 @@ def deleteRegion(region_slug):
 
 # Show champion in the chosen region
 @app.route('/region/<string:region_slug>/')
-def showAllChampion(region_slug):
+def showAllChampions(region_slug):
     return "show champions in {} region".format(region_slug)
 @app.route('/region/<string:region_slug>/champion/<string:champion_slug>/')
 def showChampion(region_slug, champion_slug):
