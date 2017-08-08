@@ -14,6 +14,13 @@ import requests
 
 app = Flask(__name__)
 
+# Connect to Database and create database session
+engine = create_engine('sqlite:///regionchampion.db')
+Base.metadata.bind = engine
+
+DBSession = sessionmaker(bind=engine)
+session = DBSession()
+
 
 # Show all regions
 @app.route('/')
@@ -27,34 +34,36 @@ def newRegion():
     return "create a new region"
 
 # Edit a region
-@app.route('/region/<int:region_id>/edit/')
-def editRegion(region_id):
-    return "now edit #{} region".format(region_id)
+@app.route('/region/<string:region_slug>/edit/')
+def editRegion(region_slug):
+    return "now edit {} region".format(region_slug)
 
 # Delete a region
-@app.route('/region/<int:region_id>/delete/')
-def deleteRegion(region_id):
-    return "now delete #{} region".format(region_id)
+@app.route('/region/<string:region_slug>/delete/')
+def deleteRegion(region_slug):
+    return "now delete {} region".format(region_slug)
 
 # Show champion in the chosen region
-@app.route('/region/<int:region_id>/')
-@app.route('/region/<int:region_id>/champion/')
-def showChampion(region_id):
-    return "show champions in #{} region".format(region_id)
+@app.route('/region/<string:region_slug>/')
+def showAllChampion(region_slug):
+    return "show champions in {} region".format(region_slug)
+@app.route('/region/<string:region_slug>/champion/<string:champion_slug>/')
+def showChampion(region_slug, champion_slug):
+    return "show champions {} in {} region".format(champion_slug, region_slug)
 # Create a new champion
-@app.route('/region/<int:region_id>/champion/new/')
-def createNewChampion(region_id):
-    return "create new champion in #{} region".format(region_id)
+@app.route('/region/<string:region_slug>/champion/new/')
+def createNewChampion(region_slug):
+    return "create new champion in {} region".format(region_slug)
 
 # Edit the chosen champion
-@app.route('/region/<int:region_id>/champion/<int:champion_id>/edit/')
-def editChampion(region_id, champion_id):
-    return "edit #{} champion in #{} region".format(champion_id, region_id)
+@app.route('/region/<string:region_slug>/champion/<string:champion_slug>/edit/')
+def editChampion(region_slug, champion_slug):
+    return "edit #{} champion in {} region".format(champion_slug, region_slug)
 
 # Delete the choson champion
-@app.route('/region/<int:region_id>/champion/<int:champion_id>/delete/')
-def deleteChampion(region_id, champion_id):
-    return "delete #{} champion in #{} region".format(champion_id, region_id)
+@app.route('/region/<string:region_slug>/champion/<string:champion_slug>/delete/')
+def deleteChampion(region_slug, champion_slug):
+    return "delete #{} champion in {} region".format(champion_slug, region_slug)
 
 
 
