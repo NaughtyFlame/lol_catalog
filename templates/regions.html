@@ -21,7 +21,7 @@
 </div>
 
 {% for region in regions %}
-<a href = "{{url_for('showAllChampions', region_slug = region.slug)}}">
+<a href = "{{url_for('showChampionsInRegion', region_slug = region.slug)}}">
   <div class="row">
     <div class="col-md-1"></div>
       <div class="col-md-10 restaurant-list">
