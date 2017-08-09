@@ -50,9 +50,18 @@ def newRegion():
 
 
 # Edit a region
-@app.route('/region/<string:region_slug>/edit/')
+@app.route('/region/<string:region_slug>/edit/', methods=['GET', 'POST'])
 def editRegion(region_slug):
-    return "now edit {} region".format(region_slug)
+    editedRegion = session.query(Region).filter_by(slug=region_slug).one()
+    if request.method == 'POST':
+        if request.form['name']:
+            editedRegion.name = request.form['name']
+            editedRegion.slug = '-'.join(request.form['name'].lower().split(' '))
+            editedRegion.description = request.form['description']
+            # flash
+            return redirect(url_for('showRegions'))
+    else:
+        return render_template('editRegion.html', region = editedRegion)
 
 
 # Delete a region
