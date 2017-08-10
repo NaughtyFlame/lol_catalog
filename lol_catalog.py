@@ -65,9 +65,16 @@ def editRegion(region_slug):
 
 
 # Delete a region
-@app.route('/region/<string:region_slug>/delete/')
+@app.route('/region/<string:region_slug>/delete/', methods=['GET', 'POST'])
 def deleteRegion(region_slug):
-    return "now delete {} region".format(region_slug)
+    regionToDelete = session.query(Region).filter_by(slug=region_slug).one()
+    if request.method == 'POST':
+        session.delete(regionToDelete)
+        #flash
+        session.commit()
+        return redirect(url_for('showRegions'))
+    else:
+        return render_template('deleteRegion.html', region=regionToDelete)
 
 
 # Show champion in the chosen region
