@@ -1,0 +1,62 @@
+{% extends "main.html" %}
+{% block content %}
+{% include "header.html" %}
+	<div class="row divider green">
+		<div class="col-md-12"></div>
+	</div>
+	<div class="row banner menu">
+		<div class="col-md-11 col-md-offset-1 padding-none">
+			<h1>New Champion</h1>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-6 col-md-offset-2 padding-top">
+			<form action="{{url_for('createNewChampion',region_slug=region.slug)}}" method = 'POST'>
+				<div class="form-group">
+				<label for="name">Name:</label>
+				<input type ="text" class="form-control" maxlength="100" name="name">
+        <label for="role">Role:</label>
+				<div class="radio">
+					<label>
+						<input type="radio" name="role" id="role1" value="Mage" checked="checked">Mage
+					</label>
+				</div>
+				<div class="radio">
+					<label>
+						<input type="radio" name="role" id="role2" value="Fighter">Fighter
+					</label>
+				</div>
+				<div class="radio">
+					<label>
+						<input type="radio" name="role" id="role3" value="Support">Support
+					</label>
+				</div>
+				<div class="radio">
+					<label>
+						<input type="radio" name="role" id="role4" value="Tank">Tank
+					</label>
+				</div>
+				<div class="radio">
+					<label>
+						<input type="radio" name="role" id="role5" value="Assassin">Assassin
+					</label>
+				</div>
+				<div class="radio">
+					<label>
+						<input type="radio" name="role" id="role6" value="Markman">Markman
+					</label>
+				</div>
+        <label for="description">Description:</label>
+        <textarea class="form-control" maxlength="250" rows="5" name="description"></textarea>
+        <label for="pic_url">Picture Url:</label>
+				<input type ="url" class="form-control" maxlength="100" name="pic_url">
+        <label for="info_url">Info Url:</label>
+				<input type ="url" class="form-control" maxlength="100" name="info_url">
+				<div class="padding-bottom"></div>
+				<button type="submit" class="btn btn-default" id="submit" type="submit">
+				<span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Create</button>
+				</div>
+			</form>
+		</div>
+	</div>
+{% endblock %}

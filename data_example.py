@@ -11,6 +11,11 @@ DBSession = sessionmaker(bind=engine)
 
 session = DBSession()
 
+pic_url_font = "http://ddragon.leagueoflegends.com/cdn/img/champion/splash/"
+
+info_url_font = "http://gameinfo.na.leagueoflegends.com/en/game-info/champions/"
+
+
 """
 champion1 = Champion(name = "", slug ="", role = "", description = description, region = region1)
 session.add()
@@ -33,7 +38,9 @@ session.commit()
 description = """
 Garen is a warrior of Demacia who has devoted his life to defending his kingdom and its ideals. Armed with his magic-resistant armor and broadsword, Garen puts his life on the line for both his nation, and his fellow soldiers.
 """
-champion1 = Champion(name = "Garen", slug ="garen", role = "Fighter", description = description, region = region1)
+pic_url = pic_url_font + "Garen_0.jpg"
+info_url = info_url_font + "garen/"
+champion1 = Champion(name = "Garen", slug ="garen", role = "Fighter", description = description, pic_url = pic_url, info_url = info_url, region = region1)
 
 session.add(champion1)
 session.commit()
@@ -42,7 +49,9 @@ session.commit()
 description = """
 Sona has no memories of her true parents. As an infant, she was found abandoned on the doorstep of an Ionian adoption house, nestled atop an ancient instrument in an exquisite case of unknown origins. She was an unusually well-behaved child, always quiet and content.
 """
-champion2 = Champion(name = "Sona", slug ="sona", role = "Support", description = description, region = region1)
+pic_url = pic_url_font + "Sona_0.jpg"
+info_url = info_url_font + "sona/"
+champion2 = Champion(name = "Sona", slug ="sona", role = "Support", description = description, pic_url = pic_url, info_url = info_url, region = region1)
 session.add(champion2)
 session.commit()
 
@@ -50,7 +59,9 @@ session.commit()
 description = """
 Luxanna Crownguard is a powerful young light mage from Demacia, an insular realm where magical abilities are viewed with fear and suspicion. Forced to keep her power secret for much of her young life, she grew up fearing discovery and exile, but learned to embrace her magic and covertly wields it in service of her homeland.
 """
-champion3 = Champion(name = "Lux", slug ="lux", role = "Mage", description = description, region = region1)
+pic_url = pic_url_font + "Lux_0.jpg"
+info_url = info_url_font + "lux/"
+champion3 = Champion(name = "Lux", slug ="lux", role = "Mage", description = description, pic_url = pic_url, info_url = info_url, region = region1)
 session.add(champion3)
 session.commit()
 
@@ -58,7 +69,9 @@ session.commit()
 description = """
 Prince Jarvan IV comes from a lineage of kings, and is favored to lead Demacia in the next era.
 """
-champion4 = Champion(name = "Jarvan IV", slug ="jarvaniv", role = "Tank", description = description, region = region1)
+pic_url = pic_url_font + "JarvanIV_0.jpg"
+info_url = info_url_font + "jarvaniv/"
+champion4 = Champion(name = "Jarvan IV", slug ="jarvaniv", role = "Tank", description = description, pic_url = pic_url, info_url = info_url, region = region1)
 session.add(champion4)
 session.commit()
 
@@ -66,7 +79,9 @@ session.commit()
 description = """
 Lucian wields relic weapons imbued with ancient power and stands a stalwart guardian against the undead.
 """
-champion5 = Champion(name = "Lucian", slug ="lucian", role = "Markman", description = description, region = region1)
+pic_url = pic_url_font + "Lucian_0.jpg"
+info_url = info_url_font + "lucian/"
+champion5 = Champion(name = "Lucian", slug ="lucian", role = "Markman", description = description, pic_url = pic_url, info_url = info_url, region = region1)
 session.add(champion5)
 session.commit()
 
@@ -74,7 +89,9 @@ session.commit()
 description = """
 The most feared duelist in all Valoran, Fiora is as renowned for her brusque manner and cunning mind as she is for the speed of her bluesteel rapier.
 """
-champion6 = Champion(name = "Fiora", slug ="fiora", role = "Fighter", description = description, region = region1)
+pic_url = pic_url_font + "Fiora_0.jpg"
+info_url = info_url_font + "fiora/"
+champion6 = Champion(name = "Fiora", slug ="fiora", role = "Fighter", description = description, pic_url = pic_url, info_url = info_url, region = region1)
 session.add(champion6)
 session.commit()
 

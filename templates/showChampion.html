@@ -1,0 +1,29 @@
+{% extends "main.html" %}
+{% block content %}
+{% include "header.html" %}
+
+<div class="row">
+<div class="col-md-10 col-md-offset-1">
+  <img class='champion' src='{{champion.pic_url}}'>
+  <h2>{{champion.name}}</h2>
+  <h4>Region : {{region.name}}</h4>
+  <h4>Role : {{champion.role}}</h4>
+  <label>Description:</label>
+  <p>{{champion.description}}</p>
+  <a href="{{champion.info_url}}">
+    <button type="button" class="btn btn-info" name="info">Info</button>
+  </a>
+  <a href="{{url_for('editChampion',region_slug=region.slug,champion_slug=champion.slug)}}">
+    <button type="button" class="btn btn-default" name="button">Edit</button>
+  </a>
+  <a href="{{url_for('deleteChampion',region_slug=region.slug,champion_slug=champion.slug)}}">
+    <button type="button" class="btn btn-danger" name="button">Delete</button>
+  </a>
+
+</div>
+
+
+
+</div>
+
+{% endblock %}

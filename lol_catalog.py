@@ -88,29 +88,81 @@ def showChampionsInRegion(region_slug):
 
 @app.route('/region/<string:region_slug>/champion/<string:champion_slug>/')
 def showChampion(region_slug, champion_slug):
-    return "show champions {} in {} region".format(champion_slug, region_slug)
+    region = session.query(Region).filter_by(slug=region_slug).one()
+    champion = session.query(Champion).filter_by(region_id=region.id, slug =champion_slug).one()
+    return render_template('showChampion.html',champion=champion,region=region)
 
 
 # Create a new champion
-@app.route('/region/<string:region_slug>/champion/new/')
+@app.route('/region/<string:region_slug>/champion/new/', methods=['GET', 'POST'])
 def createNewChampion(region_slug):
-    return "create new champion in {} region".format(region_slug)
-
+    region = session.query(Region).filter_by(slug=region_slug).one()
+    if request.method == 'POST':
+        name = request.form['name']
+        slug = '-'.join(name.split(' '))
+        newChampion = Champion(
+            name = name,
+            slug = slug,
+            role = request.form['role'],
+            description = request.form['description'],
+            pic_url = request.form['pic_url'],
+            info_url = request.form['info_url'],
+            region_id =region.id
+        )
+        session.add(newChampion)
+        session.commit()
+        #flash
+        return redirect(url_for('showChampionsInRegion', region_slug=region_slug))
+    else:
+        return render_template('newChampion.html',region=region)
 
 # Edit the chosen champion
 @app.route(
-    '/region/<string:region_slug>/champion/<string:champion_slug>/edit/'
+    '/region/<string:region_slug>/champion/<string:champion_slug>/edit/',
+    methods=['GET', 'POST']
 )
 def editChampion(region_slug, champion_slug):
-    return "edit #{} champion in {} region".format(champion_slug, region_slug)
+    region = session.query(Region).filter_by(slug=region_slug).one()
+    editedchampion = session.query(Champion).filter_by(slug=champion_slug, region_id=region.id).one()
 
+    print request.method
+    if request.method == 'POST':
+
+        if request.form['name']:
+            champion_name = request.form['name']
+            editedchampion.name =champion_name
+            editedchampion.slug = '-'.join(champion_name.split(' '))
+        if request.form['role']:
+            editedchampion.role =request.form['role']
+        if request.form['description']:
+            editedchampion.description =request.form['description']
+        if request.form['pic_url']:
+            editedchampion.pic_url =request.form['pic_url']
+        if request.form['info_url']:
+            editedchampion.info_url =request.form['info_url']
+        session.add(editedchampion)
+        session.commit()
+        # flash
+        return redirect(url_for('showChampion', region_slug=region.slug, champion_slug=editedchampion.slug))
+
+    if request.method == 'GET':
+        return render_template('editChampion.html',champion=editedchampion,region=region)
 
 # Delete the choson champion
 @app.route(
-    '/region/<string:region_slug>/champion/<string:champion_slug>/delete/'
+    '/region/<string:region_slug>/champion/<string:champion_slug>/delete/',
+    methods=['GET', 'POST']
 )
 def deleteChampion(region_slug, champion_slug):
-    return "delete {} champion in {} region".format(champion_slug, region_slug)
+    region = session.query(Region).filter_by(slug=region_slug).one()
+    championToDelete = session.query(Champion).filter_by(slug=champion_slug, region_id=region.id).one()
+    if request.method == 'POST':
+        session.delete(championToDelete)
+        session.commit()
+        # flash
+        return redirect(url_for('showChampionsInRegion',region_slug=region.slug))
+    else:
+        return render_template('deleteChampion.html',champion=championToDelete,region=region)
 
 
 if __name__ == '__main__':
