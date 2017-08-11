@@ -164,6 +164,25 @@ def deleteChampion(region_slug, champion_slug):
     else:
         return render_template('deleteChampion.html',champion=championToDelete,region=region)
 
+# Json APIs to view The game Information
+
+# To show all the region stored in database
+@app.route('/api/regions')
+def regionlistJSON():
+    regions = session.query(Region).all()
+    return jsonify(Regions=[i.serialize for i in regions])
+# information for champions in the chosen regions
+@app.route('/api/region/<string:region_slug>/')
+def championlistJSON(region_slug):
+    region = session.query(Region).filter_by(slug=region_slug).one()
+    champions = session.query(Champion).filter_by(region_id=region.id).all()
+    return jsonify(Champions=[i.serialize for i in champions])
+
+@app.route('/api/region/<string:region_slug>/champion/<string:champion_slug>/')
+def championDetail(region_slug, champion_slug):
+    region = session.query(Region).filter_by(slug=region_slug).one()
+    champion = session.query(Champion).filter_by(region_id=region.id, slug=champion_slug).one()
+    return jsonify(Champion=champion.serialize)
 
 if __name__ == '__main__':
     app.debug = True
